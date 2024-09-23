@@ -1,6 +1,16 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "esModuleInterop": true,
+    "module": "es6",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "baseUrl": "./src",
+    "paths": {
+        "@/*": ["*"]
+    }
+  },
+  "ts-node": {
+      "esm": true
   }
 }
