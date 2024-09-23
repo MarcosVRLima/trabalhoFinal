@@ -47,10 +47,10 @@ export default function Login() {
             <View style={style.boxMid}>
                 <Text style={style.labelInput}>Endereço de e-mail:</Text>
                 <View style={style.boxInput}>
-                    <TextInput 
-                        style={style.fieldInput} 
-                        value={email} 
-                        onChangeText={setEmail} 
+                    <TextInput
+                        style={style.fieldInput}
+                        value={email}
+                        onChangeText={setEmail}
                         keyboardType="email-address"
                         autoCapitalize="none"
                     />
@@ -59,18 +59,18 @@ export default function Login() {
 
                 <Text style={style.labelInput}>Senha:</Text>
                 <View style={style.boxInput}>
-                    <TextInput 
-                        style={style.fieldInput} 
-                        value={password} 
-                        onChangeText={setPassword} 
+                    <TextInput
+                        style={style.fieldInput}
+                        value={password}
+                        onChangeText={setPassword}
                         secureTextEntry={hidePassword} // Alterna entre mostrar e esconder a senha
                         autoCapitalize="none" // Desativa auto capitalização para senha 
                     />
                     <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
-                        <MaterialIcons 
-                            name={hidePassword ? "visibility-off" : "visibility"} 
-                            size={20} 
-                            color={'gray'} 
+                        <MaterialIcons
+                            name={hidePassword ? "visibility-off" : "visibility"}
+                            size={20}
+                            color={'gray'}
                         />
                     </TouchableOpacity>
                 </View>
@@ -78,13 +78,13 @@ export default function Login() {
             <View style={style.boxBottom}>
                 <TouchableOpacity style={style.buttonLogin} onPress={handleLogin}>
                     {
-                        loading ? 
+                        loading ?
                             <ActivityIndicator color={'#FFFF'} /> : <Text style={style.buttonText}>Entrar</Text>
                     }
                 </TouchableOpacity>
             </View>
             <Text style={style.textBottom}>
-                Não tem conta? 
+                Não tem conta?
                 <TouchableOpacity onPress={() => router.push('/signup')}>
                     <Text style={{ color: 'lightblue' }}> Crie uma agora</Text>
                 </TouchableOpacity>

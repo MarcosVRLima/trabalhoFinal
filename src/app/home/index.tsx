@@ -1,69 +1,79 @@
-import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList, Alert, ActivityIndicator } from "react-native";
-import { useRouter } from "expo-router";
-import { MaterialIcons } from "@expo/vector-icons";
-import AuthContext from "@/context/authContext"; // Contexto para o usuário
-import { readDocument } from "@/firestore/readDocument"; // Função para ler contas salvas
-import { style } from "./styles"; // Estilos da tela
+import React, { useEffect, useState, useContext } from "react";
+import {
+    View,
+    Text,
+    FlatList,
+    TouchableOpacity,
+} from "react-native";
+import authContext from "@/context/authContext"; // Contexto de Autenticação
+import { styles } from "./styles";
+import { readDocumentByIdUser } from "@/firestore/readDocument";
+import { useNavigation } from '@react-navigation/native';
+import { router } from "expo-router";
 
 export default function Home() {
-    const router = useRouter();
-    const { user } = useContext(AuthContext); // Pega o nome do usuário autenticado
+    const navigation = useNavigation();
     const [contas, setContas] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { user, logout } = useContext(authContext);
 
-    // Função para carregar as contas do usuário
-    async function carregarContas() {
-        try {
-            setLoading(true);
-            const resultado = await readDocument('contas', user.email); // Busca as contas associadas ao usuário
-            setContas(resultado);
-        } catch (error) {
-            console.error("Erro ao carregar contas:", error);
-            Alert.alert("Erro", "Não foi possível carregar as contas.");
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    // Carrega as contas quando a tela é montada
     useEffect(() => {
-        carregarContas();
-    }, []);
+        const fetchContas = async () => {
+            setContas(await readDocumentByIdUser("contas", user.id));
+        };
 
-    // Renderiza cada card de conta
-    const renderConta = ({ item }) => (
-        <TouchableOpacity
-            style={style.cardConta}
-            onPress={() => router.push(`/detalhesConta/${item.id}`)} // Redireciona para a tela de detalhes da conta
-        >
-            <Text style={style.nomeConta}>{item.nomeConta}</Text>
-            <Text style={style.valorConta}>Total: R$ {item.valorTotal.toFixed(2)}</Text>
-        </TouchableOpacity>
-    );
+        fetchContas();
+
+        // Configurando o botão "Adicionar Conta" no header
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => router.push('/addAccount')}
+                >
+                    <Text style={styles.buttonText}>+ Conta</Text>
+                </TouchableOpacity>
+            ),
+        });
+    }, [navigation, user]);
+
+    const irParaDetalhesDaConta = (idConta) => {
+        //navigation.navigate('DetalhesConta', { idConta });
+    };
 
     return (
-        <View style={style.container}>
-            {/* Cabeçalho com saudação e botão de adicionar conta */}
-            <View style={style.header}>
-                <Text style={style.bemVindo}>Bem-vindo, {user.nome}!</Text>
-                <TouchableOpacity style={style.botaoAdicionar} onPress={() => router.push('/adicionarConta')}>
-                    <MaterialIcons name="add" size={28} color="#FFF" />
+        <View style={styles.container}>
+            <Text style={styles.greeting}>Olá, {user.nome}!</Text>
+            <Text style={styles.label}>Suas contas cadastradas:</Text>
+
+            <FlatList
+                data={contas}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <TouchableOpacity
+                        style={styles.contaContainer}
+                        onPress={() => router.push(`/editAccount/${item.id}`)}
+                        
+                    >
+                        <Text style={styles.contaText}>Conta: {item.nomeConta}</Text>
+                        <Text style={styles.contaText}>
+                            Valor Total: R${item.valortotal}
+                        </Text>
+                    </TouchableOpacity>
+                )}
+            />
+
+            <View style={styles.footer}>
+                <TouchableOpacity style={styles.button} onPress={() => router.push('/addAccount/test')}>
+                    <Text style={styles.buttonText}>+ Conta</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Configurações</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.logoutButton} onPress={logout}>
+                    <Text style={styles.logoutButtonText}>Logout</Text>
                 </TouchableOpacity>
             </View>
-
-            {/* Verifica se está carregando as contas */}
-            {loading ? (
-                <ActivityIndicator size="large" color="#000" />
-            ) : (
-                <FlatList
-                    data={contas}
-                    renderItem={renderConta}
-                    keyExtractor={(item) => item.id}
-                    contentContainerStyle={style.listaContas}
-                    ListEmptyComponent={<Text style={style.textoSemContas}>Nenhuma conta encontrada</Text>}
-                />
-            )}
         </View>
     );
 }

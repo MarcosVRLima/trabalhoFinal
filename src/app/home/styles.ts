@@ -1,53 +1,68 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-export const style = StyleSheet.create({
+export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
-        backgroundColor: '#F0F0F0',
+        padding: 20,
+        backgroundColor: '#f0f2f5',
+        marginTop: 40
     },
-    header: {
+    greeting: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        color: '#333',
+    },
+    label: {
+        fontSize: 18,
+        fontWeight: '600',
+        marginBottom: 15,
+        color: '#666',
+    },
+    contaContainer: {
+        backgroundColor: '#fff',
+        padding: 15,
+        borderRadius: 8,
+        marginBottom: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    contaText: {
+        fontSize: 16,
+        color: '#333',
+    },
+    footer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 16,
+        marginTop: 20,
+        paddingTop: 15,
+        borderTopColor: '#ccc',
+        borderTopWidth: 1,
     },
-    bemVindo: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    botaoAdicionar: {
-        backgroundColor: '#4CAF50',
-        padding: 10,
-        borderRadius: 50,
-    },
-    listaContas: {
-        paddingBottom: 16,
-    },
-    cardConta: {
-        backgroundColor: '#FFF',
-        padding: 16,
+    button: {
+        backgroundColor: '#007bff',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
         borderRadius: 8,
-        marginBottom: 12,
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        elevation: 3,
     },
-    nomeConta: {
+    buttonText: {
+        color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#333',
     },
-    valorConta: {
-        fontSize: 14,
-        color: '#666',
-        marginTop: 4,
+    logoutButton: {
+        backgroundColor: '#dc3545',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 8,
     },
-    textoSemContas: {
-        textAlign: 'center',
-        marginTop: 16,
+    logoutButtonText: {
+        color: '#fff',
         fontSize: 16,
-        color: '#666',
-    }
+        fontWeight: 'bold',
+    },
 });

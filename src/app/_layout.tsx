@@ -8,6 +8,7 @@ export default function Layout(){
                 <Stack.Screen name="login/index"/>
                 <Stack.Screen name="signup/index"/>
                 <Stack.Screen name="home/index"/>
+                <Stack.Screen name="editAccount/[id]"/>
             </Stack> 
         </AuthProvider>
     )
